@@ -5,6 +5,7 @@ export default function HomePage() {
   const [result, setResult] = useState("");
   return (
     <div>
+      <h1> hellow there</h1>
       <div style={{ padding: 20 }}>
         <input
           className="inputText"
