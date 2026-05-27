@@ -1,0 +1,70 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # =========================
+      # CHECKOUT CODE
+      # =========================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # =========================
+      # SETUP NODE
+      # =========================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # =========================
+      # BACKEND INSTALL + TEST
+      # =========================
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          npm test
+
+      # =========================
+      # FRONTEND (dbbTrain)
+      # =========================
+      - name: Install frontend dependencies
+        run: |
+          cd frontend/dbbTrain
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend/dbbTrain
+          npm run build
+
+      # =========================
+      # E2E TESTS (CUCUMBER + PLAYWRIGHT)
+      # =========================
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Run Cucumber tests
+        run: npx cucumber-js
+
+      # =========================
+      # FINAL STEP
+      # =========================
+      - name: Show project structure
+        run: ls -R
+
+      - name: CI/CD Completed
+        run: echo "✅ Pipeline finished successfully!"
