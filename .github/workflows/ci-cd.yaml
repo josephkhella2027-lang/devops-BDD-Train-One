@@ -54,7 +54,7 @@ jobs:
           cd frontend/bddTrain
           npm run build
       - name: Install frontend dependencies
-        working-directory: frontend/dbbTrain
+        working-directory: frontend/bddTrain
         run: npm install
 
       # =========================
