@@ -37,6 +37,9 @@ jobs:
         run: |
           cd backend
           npm test
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
 
       # =========================
       # FRONTEND (dbbTrain)
@@ -50,12 +53,13 @@ jobs:
         run: |
           cd frontend/bddTrain
           npm run build
+      - name: Install frontend dependencies
+        working-directory: frontend/dbbTrain
+        run: npm install
 
       # =========================
       # E2E TESTS (CUCUMBER + PLAYWRIGHT)
       # =========================
-      - name: Install root dependencies
-        run: npm install
 
       - name: Run Cucumber tests
         run: npx cucumber-js
