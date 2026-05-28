@@ -1,13 +1,18 @@
-name: CI/CD Pipeline
+name: Full Stack CI
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - dev
+
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
+      - dev
 
 jobs:
-  build-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,37 +34,36 @@ jobs:
       # BACKEND INSTALL + TEST
       # =========================
       - name: Install backend dependencies
-        run: |
-          cd backend
-          npm install
+        working-directory: backend
+        run: npm ci
 
       - name: Run backend tests
-        run: |
-          cd backend
-          npm test
-      - name: Install backend dependencies
         working-directory: backend
-        run: npm install
+        run: npm test
+
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
 
       # =========================
-      # FRONTEND (dbbTrain)
+      # FRONTEND (bddTrain)
       # =========================
-      - name: Install frontend dependencies
-        run: |
-          cd frontend/bddTrain
-          npm install
-
-      - name: Build frontend
-        run: |
-          cd frontend/bddTrain
-          npm run build
       - name: Install frontend dependencies
         working-directory: frontend/bddTrain
-        run: npm install
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend/bddTrain
+        run: npm run build
 
       # =========================
       # E2E TESTS (CUCUMBER + PLAYWRIGHT)
       # =========================
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Run Cucumber tests
         run: npx cucumber-js
