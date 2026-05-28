@@ -6,6 +6,10 @@ export default function HomePage() {
   return (
     <div>
       <h1> hellow there</h1>
+      <h1> hellow there</h1>
+      <h1> hellow there</h1>
+      <h1> hellow there</h1>
+      <h1> hellow there</h1>
       <div style={{ padding: 20 }}>
         <input
           className="inputText"
